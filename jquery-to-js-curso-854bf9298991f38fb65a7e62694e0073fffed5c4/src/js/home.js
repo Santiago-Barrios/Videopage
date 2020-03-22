@@ -127,9 +127,9 @@ fetch('https://swapi.co/api/people/')
   const terrorList = await getData(`${BASE_API}list_movies.json?genre=horror`);
   const animationList = await getData(`${BASE_API}list_movies.json?genre=animation`);
 
-  function videoItemTemplate(movie){
+  function videoItemTemplate(movie, category){
     return (
-          `<div class="primaryPlaylistItem">
+      `<div class="primaryPlaylistItem" data-id="${movie.id}" data-category= "${category}" >
           <div class="primaryPlaylistItem-image">
             <img src="${movie.medium_cover_image}">
           </div>
@@ -147,14 +147,14 @@ fetch('https://swapi.co/api/people/')
   function addEventClick ($element){
     $element.addEventListener('click', () => {
       // alert('click');
-      showModal();
+      showModal($element);
     })
   }
-  function renderMovieList(List, $container){
+  function renderMovieList(List, $container, category){
     // actionList.data.movies
     $container.children[0].remove();
     List.forEach((movie)=>{
-      const HTMLString = videoItemTemplate(movie);
+      const HTMLString = videoItemTemplate(movie, category);
       const movieElement = createTemplate(HTMLString);
       $container.append(movieElement);
       addEventClick(movieElement);
@@ -162,13 +162,13 @@ fetch('https://swapi.co/api/people/')
   }
   
   const $actionContainer = document.querySelector('#action');
-  renderMovieList(actionList.data.movies, $actionContainer );
+  renderMovieList(actionList.data.movies, $actionContainer, 'action');
 
   const $dramaContainer = document.getElementById('drama');
-  renderMovieList(terrorList.data.movies, $dramaContainer );
+  renderMovieList(terrorList.data.movies, $dramaContainer, 'drama' );
 
   const $animationContainer = document.getElementById('animation'); 
-  renderMovieList(animationList.data.movies, $animationContainer );
+  renderMovieList(animationList.data.movies, $animationContainer, 'animation' );
 
 
   // const $home = $('.home .list #item');
@@ -181,7 +181,8 @@ fetch('https://swapi.co/api/people/')
   const modalDescription = $modal.querySelector('p');
   
 
-  function showModal(){
+  function showModal($element){
+
     $overlay.classList.add('active');
     $modal.style.animation = 'modalIn .8s forwards';
   }
