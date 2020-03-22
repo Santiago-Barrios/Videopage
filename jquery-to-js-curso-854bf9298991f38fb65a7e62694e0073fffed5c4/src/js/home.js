@@ -75,10 +75,13 @@ fetch('https://swapi.co/api/people/')
   return data;
   }
 
-  const $form = document.getElementById('form'); 
+  const $form = document.getElementById('form');
+  const $home = document.getElementById('home'); 
+
   $form.addEventListener('submit', (event)=>{
     // debugger
     event.preventDefault();
+    $home.classList.add('search-active');
   })
 
   const actionList = await getData('https://yts.mx/api/v2/list_movies.json?genre=action');
@@ -104,7 +107,8 @@ fetch('https://swapi.co/api/people/')
   }
   function addEventClick ($element){
     $element.addEventListener('click', () => {
-      alert('click');
+      // alert('click');
+      showModal();
     })
   }
   function renderMovieList(List, $container){
@@ -129,7 +133,6 @@ fetch('https://swapi.co/api/people/')
 
   
   const $featuringContainer = document.getElementById('animation'); 
-  const $home = document.getElementById('home'); 
 
 
   // const $home = $('.home .list #item');
@@ -140,6 +143,16 @@ fetch('https://swapi.co/api/people/')
   const modalImage = $modal.querySelector('img');
   const modalTitle = $modal.querySelector('h1');
   const modalDescription = $modal.querySelector('p');
- 
+  
 
+  function showModal(){
+    $overlay.classList.add('active');
+    $modal.style.animation = 'modalIn .8s forwards';
+  }
+
+  $hideModal.addEventListener('click', hideModal);
+  function hideModal() {
+    $overlay.classList.remove('active');
+    $modal.style.animation = 'modalOut .8s forwards';
+  }
 })()
