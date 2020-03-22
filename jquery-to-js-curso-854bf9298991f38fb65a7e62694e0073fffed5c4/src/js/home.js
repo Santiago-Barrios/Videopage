@@ -77,12 +77,26 @@ fetch('https://swapi.co/api/people/')
 
   const $form = document.getElementById('form');
   const $home = document.getElementById('home'); 
+  const $featuringContainer = document.getElementById('featuring'); 
 
+
+  function setAttributes($element, attributes){
+    for (const attribute in attributes){
+      $element.setAttribute(attribute, attributes[attribute]);
+    }
+  }
   $form.addEventListener('submit', (event)=>{
     // debugger
     event.preventDefault();
     $home.classList.add('search-active');
-  })
+    const $loader = document.createElement('img');
+    setAttributes( $loader, {
+      src: 'src/images/loader.gif',
+      height : 50,
+      width : 50,
+    })
+    $featuringContainer.append($loader);
+})
 
   const actionList = await getData('https://yts.mx/api/v2/list_movies.json?genre=action');
   const terrorList = await getData('https://yts.mx/api/v2/list_movies.json?genre=horror');
@@ -130,9 +144,6 @@ fetch('https://swapi.co/api/people/')
 
   const $animationContainer = document.getElementById('animation'); 
   renderMovieList(animationList.data.movies, $animationContainer );
-
-  
-  const $featuringContainer = document.getElementById('animation'); 
 
 
   // const $home = $('.home .list #item');
