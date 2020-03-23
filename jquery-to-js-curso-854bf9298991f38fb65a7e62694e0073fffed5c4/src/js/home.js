@@ -176,35 +176,39 @@ fetch('https://swapi.co/api/people/')
   const $overlay = document.getElementById('overlay');
   const $hideModal = document.getElementById('hide-modal');
 
-  const modalImage = $modal.querySelector('img');
-  const modalTitle = $modal.querySelector('h1');
-  const modalDescription = $modal.querySelector('p');
-  // function findById (list, id){
-  //   // debugger
-  //   return list.find(movie => movie.id === parseInt(id, 10))
-  // }
-  // function findMovie(id, category){
-  //   switch (category) {
-  //     case 'action' : {
-  //       findById(actionList, id)
-  //     }
-  //     case 'drama' : {
-  //       findById(terrorList, id)
-  //     }
-  //     default: {
-  //       findById(animationList, id)
-  //     }
-  //   }
-  //   // debugger
-  // }
+  const $modalImage = $modal.querySelector('img');
+  const $modalTitle = $modal.querySelector('h1');
+  const $modalDescription = $modal.querySelector('p');
+
+  function findById (list, id){
+    // debugger
+    return list.find(movie => movie.id === parseInt(id, 10))
+  }
+function findMovie(id, category){
+    switch (category) {
+      case 'action' : {
+        return findById(actionList, id)
+      }
+      case 'drama' : {
+        return findById(terrorList, id)
+      }
+      default: {
+        return findById(animationList, id)
+      }
+    }
+  }
+  
 
   function showModal($element){
     $overlay.classList.add('active');
     $modal.style.animation = 'modalIn .8s forwards';
     const id = $element.dataset.id;
     const category = $element.dataset.category;
-    // const data = findMovie(id, category);
+    const data = findMovie(id, category);
     // debugger
+    $modalTitle.textContent = data.title;
+    $modalImage.setAttribute ('src', data.medium_cover_image);
+    $modalDescription.textContent = data.description_full;
   }
 
   $hideModal.addEventListener('click', hideModal);
