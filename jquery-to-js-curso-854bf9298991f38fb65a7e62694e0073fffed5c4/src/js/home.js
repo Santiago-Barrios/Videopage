@@ -123,10 +123,10 @@ fetch('https://swapi.co/api/people/')
     
 })
 
-  const actionList = await getData(`${BASE_API}list_movies.json?genre=action`);
-  const terrorList = await getData(`${BASE_API}list_movies.json?genre=horror`);
-  const animationList = await getData(`${BASE_API}list_movies.json?genre=animation`);
-
+  const {data: {movies: actionList}} = await getData(`${BASE_API}list_movies.json?genre=action`);
+  const {data: {movies: terrorList}} = await getData(`${BASE_API}list_movies.json?genre=horror`);
+  const {data: {movies: animationList}} = await getData(`${BASE_API}list_movies.json?genre=animation`);
+  console.log(actionList, terrorList, animationList);
   function videoItemTemplate(movie, category){
     return (
       `<div class="primaryPlaylistItem" data-id="${movie.id}" data-category= "${category}" >
@@ -162,13 +162,13 @@ fetch('https://swapi.co/api/people/')
   }
   
   const $actionContainer = document.querySelector('#action');
-  renderMovieList(actionList.data.movies, $actionContainer, 'action');
+  renderMovieList(actionList, $actionContainer, 'action');
 
   const $dramaContainer = document.getElementById('drama');
-  renderMovieList(terrorList.data.movies, $dramaContainer, 'drama' );
+  renderMovieList(terrorList, $dramaContainer, 'drama' );
 
   const $animationContainer = document.getElementById('animation'); 
-  renderMovieList(animationList.data.movies, $animationContainer, 'animation' );
+  renderMovieList(animationList, $animationContainer, 'animation' );
 
 
   // const $home = $('.home .list #item');
@@ -179,12 +179,32 @@ fetch('https://swapi.co/api/people/')
   const modalImage = $modal.querySelector('img');
   const modalTitle = $modal.querySelector('h1');
   const modalDescription = $modal.querySelector('p');
-  
+  // function findById (list, id){
+  //   // debugger
+  //   return list.find(movie => movie.id === parseInt(id, 10))
+  // }
+  // function findMovie(id, category){
+  //   switch (category) {
+  //     case 'action' : {
+  //       findById(actionList, id)
+  //     }
+  //     case 'drama' : {
+  //       findById(terrorList, id)
+  //     }
+  //     default: {
+  //       findById(animationList, id)
+  //     }
+  //   }
+  //   // debugger
+  // }
 
   function showModal($element){
-
     $overlay.classList.add('active');
     $modal.style.animation = 'modalIn .8s forwards';
+    const id = $element.dataset.id;
+    const category = $element.dataset.category;
+    // const data = findMovie(id, category);
+    // debugger
   }
 
   $hideModal.addEventListener('click', hideModal);
