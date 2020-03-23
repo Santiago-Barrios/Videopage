@@ -176,15 +176,18 @@ fetch('https://swapi.co/api/people/')
   }
   
   const {data: {movies: actionList}} = await getData(`${BASE_API}list_movies.json?genre=action`);
+  window.localStorage.setItem('actionList', actionList);
   const $actionContainer = document.querySelector('#action');
   renderMovieList(actionList, $actionContainer, 'action');
   
   const {data: {movies: terrorList}} = await getData(`${BASE_API}list_movies.json?genre=horror`);
+  window.localStorage.setItem('dramaList', terrorList);
   const $dramaContainer = document.getElementById('drama');
   renderMovieList(terrorList, $dramaContainer, 'drama' );
   
   const {data: {movies: animationList}} = await getData(`${BASE_API}list_movies.json?genre=animation`);
-  const $animationContainer = document.getElementById('animation'); 
+  window.localStorage.setItem('animationList', animationList);
+    const $animationContainer = document.getElementById('animation'); 
   renderMovieList(animationList, $animationContainer, 'animation' );
 
 
