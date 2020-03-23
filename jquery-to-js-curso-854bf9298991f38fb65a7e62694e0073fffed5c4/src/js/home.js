@@ -70,9 +70,14 @@ fetch('https://swapi.co/api/people/')
   //terror
   //animations
   async function getData (url){
-  const response = await fetch(url)
-  const data = await response.json()
-  return data;
+  const response = await fetch(url);
+  const data = await response.json();
+  if (data.data.movie_count > 0){
+    return data;
+    // aquí se acaba
+  }
+  // si mo hay pelis aquí continua 
+    throw new Error('no se encontró ningún resultado');
   }
 
   const $form = document.getElementById('form');
@@ -113,19 +118,26 @@ fetch('https://swapi.co/api/people/')
     })
     $featuringContainer.append($loader);
     const data = new FormData($form);
-    const {
-      data: {
-        movies: pelis
-      }
-    } = await getData(`${BASE_API}list_movies.json?limit=1&query_term=${data.get('name')}`);
-    const HTMLString = featuringTemplate(pelis[0]);
-    $featuringContainer.innerHTML = HTMLString;
+    try{
+      const {
+        data: {
+          movies: pelis
+        }
+      } = await getData(`${BASE_API}list_movies.json?limit=1&query_term=${data.get('name')}`);
+      const HTMLString = featuringTemplate(pelis[0]);
+      $featuringContainer.innerHTML = HTMLString;
+    }catch(error){
+      // debugger
+      alert(error.message);
+      $loader.remove();
+      $home.classList.remove('search-active');
+    }
     
 })
 
 
 
-function videoItemTemplate(movie, category){
+  function videoItemTemplate(movie, category){
   return (
     `<div class="primaryPlaylistItem" data-id="${movie.id}" data-category= "${category}" >
     <div class="primaryPlaylistItem-image">

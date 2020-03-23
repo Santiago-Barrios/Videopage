@@ -243,7 +243,26 @@ body {
 .fadeIn {
   animation: 5000ms fadeIn;
 }
-
+.alert{
+  width: 500px;
+  background: white;
+  padding: 2em;
+  border-radius: .5em;
+  text-align: center;
+  z-index: 2;
+  transform: translateY(-3000px);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: 500px;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 @keyframes fadeIn {
   0% {
     opacity: 0;
